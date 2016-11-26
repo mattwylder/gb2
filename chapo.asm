@@ -210,7 +210,7 @@ CLEAR_MAP_LOOP:
 LOAD_TILES:
 	ld	hl,CHAPO_TILES
 	ld	de, _VRAM
-	ld	bc,9*16	  ;9 tiles, 16B each
+	ld	bc,19*16	  ;9 tiles, 16B each
 LOAD_TILES_LOOP:
   ld	a,[hl+]	  ;get a byte from our tiles, and increment.
   ld	[de],a	  ;put that byte in VRAM and
@@ -247,21 +247,26 @@ STAGE_OAM:
 
 VBLANK:
 	push af
+
   ld de, _OAMRAM
-	ld hl, _RAM ;Y offset
+	ld hl, _RAM
+	ld a, [hl]
+	ld [de], a
+
+	inc de
+	inc hl
+
 	ld a, [hl]
 	ld [de], a
 	inc de
 	inc hl
+
 	ld a, [hl]
-	ld [de], a ; X offset
-	inc de
-	inc hl
-	ld a, [hl] ;Tile number, zero indexed
 	ld [de], a
 	inc de
 	inc hl
-	ld a, [hl] ;Flags
+
+	ld a, [hl]
 	ld [de], a
 	pop af
 	reti
