@@ -248,15 +248,20 @@ STAGE_OAM:
 VBLANK:
 	push af
   ld de, _OAMRAM
-	ld a, 16 ;Y offset
+	ld hl, _RAM ;Y offset
+	ld a, [hl]
 	ld [de], a
 	inc de
-	ld [de], a ; X offset (same as y for now)
+	inc hl
+	ld a, [hl]
+	ld [de], a ; X offset
 	inc de
-	ld a, 1 ;Tile number, zero indexed
+	inc hl
+	ld a, [hl] ;Tile number, zero indexed
 	ld [de], a
 	inc de
-	ld a, %00000000 ;Flags
+	inc hl
+	ld a, [hl] ;Flags
 	ld [de], a
 	pop af
 	reti
