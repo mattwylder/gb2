@@ -247,27 +247,34 @@ STAGE_OAM:
 
 VBLANK:
 	push af
-
+	
+	;to OAM from RAM
   ld de, _OAMRAM
 	ld hl, _RAM
-	ld a, [hl]
-	ld [de], a
 
-	inc de
-	inc hl
-
+	;Load Y Position
 	ld a, [hl]
 	ld [de], a
 	inc de
 	inc hl
 
+	;Load X Position
 	ld a, [hl]
 	ld [de], a
 	inc de
 	inc hl
 
+	;Load Tile number
 	ld a, [hl]
 	ld [de], a
+	inc de
+	inc hl
+
+	;Load Extra flags
+	ld a, [hl]
+	ld [de], a
+
+	;Return
 	pop af
 	reti
 
