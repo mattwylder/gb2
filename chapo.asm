@@ -14,7 +14,7 @@
 
 	; project includes
 	INCLUDE "tile/chapo_tile.asm"
-
+	INCLUDE "inc/macros.asm"
 
 ;******************************************************************************
 ;*	user data (constants)
@@ -245,9 +245,25 @@ STAGE_OAM:
 	inc hl
 	ret
 
+; Parameter b: modifier
+; registers a & b will be altered
+MOVE_PLAYER_Y:
+	ld a, [PC_Y]
+	add a, b
+	ld [PC_Y], a
+	ret
+
+; Parameter b: modifier
+; registers a & b will be altered
+MOVE_PLAYER_X:
+	ld a, [PC_X]
+	add a, b
+	ld [PC_X], a
+	ret
+
 VBLANK:
 	push af
-	
+
 	;to OAM from RAM
   ld de, _OAMRAM
 	ld hl, _RAM
