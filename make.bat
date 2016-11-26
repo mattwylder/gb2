@@ -1,4 +1,4 @@
-del plane.gb
+del chapo.gb
 rgbasm -o chapo.obj chapo.asm
 rgblink -o chapo.gb chapo.obj
 del chapo.obj
