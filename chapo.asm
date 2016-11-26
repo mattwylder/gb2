@@ -64,7 +64,7 @@ RST_38:
 
 	SECTION	"V-Blank IRQ Vector",HOME[$40]
 VBL_VECT:
-	reti
+	jp VBLANK
 
 	SECTION	"LCD IRQ Vector",HOME[$48]
 LCD_VECT:
@@ -147,26 +147,28 @@ JOYPAD_VECT:
 
 Start:
 
-  ld a, $01					;$01 enables v-blank interrupts
-  ld hl, $FFFF
-  ld [hl], a
-
 	di	              ;disable interrupts
 	ld	 sp,$FFFE	    ;set the stack to $FFFE
+	call WAIT_VBLANK
 
 	ld	 a,0
 	ldh	 [rLCDC],a	  ;turn off LCD
 
 	call CLEAR_MAP	  ;clear the BG map
 	call LOAD_TILES	  ;load up our tiles
-	call LOAD_MAP	    ;load up our map
+;	call LOAD_MAP	    ;load up our map
+ call STAGE_OAM
 
 	ld	 a,%11100100	;load a normal palette up 11 10 01 00 - dark->light
 	ldh	 [rBGP],a	    ;load the palette
+	ldh  [rOBP0], a
 
 	ld	 a,%10010011	;  =$91
 	ldh	 [rLCDC],a	  ;turn on the LCD, BG, etc
 
+	ld a, $01					;$01 enables v-blank interrupts
+  ld hl, $FFFF
+	ld [hl], a
 
 	ei								;enables interrupts
 
@@ -207,7 +209,7 @@ CLEAR_MAP_LOOP:
 
 LOAD_TILES:
 	ld	hl,CHAPO_TILES
-	ld	de,$8000
+	ld	de, _VRAM
 	ld	bc,9*16	  ;9 tiles, 16B each
 LOAD_TILES_LOOP:
   ld	a,[hl+]	  ;get a byte from our tiles, and increment.
@@ -222,7 +224,7 @@ LOAD_TILES_LOOP:
 LOAD_MAP:
 	ld	hl,HELLO_MAP  ;pointer to byte of map
 	ld	de,_SCRN0	    ;_SCRN0 = $9800, first point on screen
-	ld	c,7   	      ;tile counter
+	ld	c,18   	      ;tile counter
 LOAD_MAP_LOOP:
   ld	a,[hl+]	      ;grab current map byte, increment hl
   ld	[de],a	      ;put the byte onto the screen
@@ -231,23 +233,34 @@ LOAD_MAP_LOOP:
   jr	nz,LOAD_MAP_LOOP	;if tile counter != 0 then loop
   ret
 
+STAGE_OAM:
+	ld hl, _RAM
+	ld [hl], 16
+	inc hl
+	ld [hl], 16
+	inc hl
+	ld [hl], 1
+	inc hl
+	ld [hl], %0000
+	inc hl
+	ret
 
-; I don't really remember what this is.
-; I think I was trying to refactor the logic for WAIT_VBLANK or something
-; Caused build error:
-;	     rgblink: Unable to to load fixed ROM0 section at $FF80
+VBLANK:
+	push af
+  ld de, _OAMRAM
+	ld a, 16 ;Y offset
+	ld [de], a
+	inc de
+	ld [de], a ; X offset (same as y for now)
+	inc de
+	ld a, 1 ;Tile number, zero indexed
+	ld [de], a
+	inc de
+	ld a, %00000000 ;Flags
+	ld [de], a
+	pop af
+	reti
 
-;SECTION	"Org $F800",HOME[$ff80]
-;Vblank:
-;		push af
-;		ld a, [$0100]
-;		ld [$ff46], a
-;		ld a,$28
-;Wait:
-;		dec a
-;		jr nz,Wait
-;		pop af
-;		reti
 
 ;************************************************************
 ;* tile map
@@ -255,6 +268,7 @@ LOAD_MAP_LOOP:
 SECTION "Map",HOME
 
 HELLO_MAP:
-  DB $00,$01,$02,$03,$04,$05,$06
+  DB $01,$00,$00,$00,$00,$00,$00
+	DB $02
 
 ;*** End Of File ***
