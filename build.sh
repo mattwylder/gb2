@@ -1,7 +1,7 @@
 #!/bin/sh 
 
 function clean_up {
-    rm chapo.o >/dev/null 2>&1
+    rm *.o >/dev/null 2>&1
 }
 
 function error {
@@ -9,8 +9,11 @@ function error {
    exit 1
 }
 
-rgbasm -o chapo.o chapo.asm || error
-rgblink -o chapo.gb chapo.o || error
-rgbfix -v chapo.gb || error
+BASEDIR=`dirname $0`
 
+rgbasm -o chapo.o $BASEDIR/src/header.asm || error
+rgblink -o $BASEDIR/chapo.gb chapo.o || error
+rgbfix -v $BASEDIR/chapo.gb || error
+
+echo "success"
 clean_up 
