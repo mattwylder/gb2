@@ -14,7 +14,6 @@
 
 	; project includes
 	INCLUDE "tile/chapo_tile.asm"
-	INCLUDE "inc/macros.asm"
 
 ;******************************************************************************
 ;*	user data (constants)
@@ -80,7 +79,7 @@ SERIAL_VECT:
 
 	SECTION	"Joypad IRQ Vector",HOME[$60]
 JOYPAD_VECT:
-	reti
+	jp READ_BUTTONS
 
 	SECTION	"Start",HOME[$100]
 	nop
@@ -166,7 +165,7 @@ Start:
 	ld	 a,%10010011	;  =$91
 	ldh	 [rLCDC],a	  ;turn on the LCD, BG, etc
 
-	ld a, $01					;$01 enables v-blank interrupts
+	ld a, $11					;$01 enables v-blank interrupts, joypad
   ld hl, $FFFF
 	ld [hl], a
 
@@ -245,22 +244,6 @@ STAGE_OAM:
 	inc hl
 	ret
 
-; Parameter b: modifier
-; registers a & b will be altered
-MOVE_PLAYER_Y:
-	ld a, [PC_Y]
-	add a, b
-	ld [PC_Y], a
-	ret
-
-; Parameter b: modifier
-; registers a & b will be altered
-MOVE_PLAYER_X:
-	ld a, [PC_X]
-	add a, b
-	ld [PC_X], a
-	ret
-
 VBLANK:
 	push af
 
@@ -292,6 +275,38 @@ VBLANK:
 
 	;Return
 	pop af
+	reti
+
+
+READ_BUTTONS:
+	ld a, $20
+	ld [$ff00], a
+	ld a, [$ff00]
+	ld a, [$ff00]
+	cpl
+	and $0f
+	swap a
+	ld b, a
+	ld a, $10
+	ld [$ff00], a
+	ld a, [$ff00]
+	ld a, [$ff00]
+	ld a, [$ff00]
+	ld a, [$ff00]
+	ld a, [$ff00]
+	ld a, [$ff00]
+	cpl
+	and $0f
+	or b
+	ld b, a
+	ld a, [$ff8b]
+	xor b
+	and b
+	ld [$ff8c], a
+	ld a, b
+	ld [$ff8b],a
+	ld a, $30
+	ld [$ff00], a
 	reti
 
 
