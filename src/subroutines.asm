@@ -1,11 +1,13 @@
-
 ;******************************************************************************
+;*
 ;*      Subroutines.asm
+;*
 ;******************************************************************************
 
-INCLUDE "tile/chapo_tile.asm"
+INCLUDE "tiles.asm"
 
-IF !DEF(subroutines)
+IF !DEF(SUBROUTINES)
+SUBROUTINES SET 1
 
 	SECTION "Support Routines",HOME
 
