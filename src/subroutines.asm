@@ -1,8 +1,11 @@
 
-INCLUDE "tile/chapo_tile.asm"
 ;******************************************************************************
 ;* Subroutines
 ;******************************************************************************
+
+INCLUDE "tile/chapo_tile.asm"
+
+IF !DEF(subroutines)
 
 
 	SECTION "Support Routines",HOME
@@ -102,6 +105,8 @@ VBLANK:
 READ_BUTTONS:
 	ld a, $20
 	ld [$ff00], a
+
+        ;Debounce
 	ld a, [$ff00]
 	ld a, [$ff00]
 	cpl
@@ -110,6 +115,8 @@ READ_BUTTONS:
 	ld b, a
 	ld a, $10
 	ld [$ff00], a
+
+        ;More Debounce
 	ld a, [$ff00]
 	ld a, [$ff00]
 	ld a, [$ff00]
@@ -141,4 +148,4 @@ HELLO_MAP:
 	DB $02
 
 ;*** End Of File ***
-END 
+ENDC
