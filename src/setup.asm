@@ -24,7 +24,7 @@ CLEAR_MAP_LOOP:
         ret
 
 LOAD_TILES:
-	ld	hl,CHAPO_TILES
+	ld	hl,TILES
 	ld	de, _VRAM
 	ld	bc,19*16	        ; 9 tiles, 16B each
 LOAD_TILES_LOOP:
