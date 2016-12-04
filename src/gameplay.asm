@@ -77,16 +77,4 @@ CONTROLS:
 	ld [$ff00], a
 	ret
 
-LOAD_PLAYER:
-	ld hl, _RAM
-	ld [hl], 16
-	inc hl
-	ld [hl], 16
-	inc hl
-	ld [hl], 1
-	inc hl
-	ld [hl], %0000
-	inc hl
-	ret
-
 ENDC
