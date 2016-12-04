@@ -1,13 +1,13 @@
 ;******************************************************************************
 ;*
-;*      Subroutines.asm
+;*      setup.asm
 ;*
 ;******************************************************************************
 
 INCLUDE "tiles.asm"
 
-IF !DEF(SUBROUTINES)
-SUBROUTINES SET 1
+IF !DEF(SETUP_ROUTINES)
+SETUP_ROUTINES SET 1
 
 	SECTION "Support Routines",HOME
 
@@ -49,5 +49,4 @@ LOAD_MAP_LOOP:
         jr	nz,LOAD_MAP_LOOP	; if tile counter != 0 then loop
         ret
 
-;*** End Of File ***
 ENDC

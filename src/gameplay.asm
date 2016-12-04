@@ -4,8 +4,8 @@
 ;*
 ;******************************************************************************
 
-IF !DEF(GAMEPLAY)
-GAMEPLAY SET 1
+IF !DEF(GAMEPLAY_ROUTINES)
+GAMEPLAY_ROUTINES SET 1
 
 VBLANK:
 	push af
