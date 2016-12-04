@@ -133,14 +133,6 @@ READ_BUTTONS:
 	ret
 
 
-;************************************************************
-;* tile map
-
-SECTION "Map",HOME
-
-HELLO_MAP:
-  DB $01,$00,$00,$00,$00,$00,$00
-	DB $02
 
 ;*** End Of File ***
 ENDC
