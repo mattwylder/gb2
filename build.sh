@@ -10,8 +10,9 @@ function error {
 }
 
 BASEDIR=`dirname $0`
+MAIN=$BASEDIR/src/main.asm
 
-rgbasm -o chapo.o $BASEDIR/src/header.asm || error
+rgbasm -o chapo.o $MAIN || error
 rgblink -o $BASEDIR/chapo.gb chapo.o || error
 rgbfix -v $BASEDIR/chapo.gb || error
 
