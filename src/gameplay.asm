@@ -7,6 +7,8 @@
 IF !DEF(GAMEPLAY_ROUTINES)
 GAMEPLAY_ROUTINES SET 1
 
+	SECTION "Gameplay Routines",HOME
+
 VBLANK:
 	push af
 

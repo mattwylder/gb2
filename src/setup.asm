@@ -9,7 +9,7 @@ INCLUDE "tiles.asm"
 IF !DEF(SETUP_ROUTINES)
 SETUP_ROUTINES SET 1
 
-	SECTION "Support Routines",HOME
+	SECTION "Setup Routines",HOME
 
 CLEAR_MAP:
         ld	hl,_SCRN0	        ; _SCRN0 = $9800, first point on screen
