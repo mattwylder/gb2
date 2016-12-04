@@ -3,7 +3,8 @@
 ;*
 ;******************************************************************************
 INCLUDE	"inc/hardware.inc"
-INCLUDE "subroutines.asm"
+INCLUDE "setup.asm"
+INCLUDE "gameplay.asm"
 
 ;******************************************************************************
 ;*	cartridge header
@@ -59,7 +60,7 @@ SERIAL_VECT:
 
 	SECTION	"Joypad IRQ Vector",HOME[$60]
 JOYPAD_VECT:
-	jp READ_BUTTONS
+        reti
 
 	SECTION	"Start",HOME[$100]
 	nop
@@ -135,7 +136,7 @@ Start:
 	call CLEAR_MAP	        ; clear the BG map
 	call LOAD_TILES	        ; load up our tiles
 ;	call LOAD_MAP	        ; load up our map
- call STAGE_OAM
+ ;call STAGE_OAM
 
 	ld	 a,%11100100	; load a normal palette up 11 10 01 00 - dark->light
 	ldh	 [rBGP],a	; load the palette
