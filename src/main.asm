@@ -5,6 +5,7 @@
 INCLUDE	"inc/hardware.inc"
 INCLUDE "setup.asm"
 INCLUDE "gameplay.asm"
+INCLUDE "player.asm"
 
 ;******************************************************************************
 ;*	cartridge header
@@ -136,7 +137,6 @@ Start:
 	call CLEAR_MAP	        ; clear the BG map
 	call LOAD_TILES	        ; load up our tiles
 ;	call LOAD_MAP	        ; load up our map
- ;call STAGE_OAM
 
 	ld	 a,%11100100	; load a normal palette up 11 10 01 00 - dark->light
 	ldh	 [rBGP],a	; load the palette
