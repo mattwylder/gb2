@@ -36,6 +36,11 @@ NF_TILE_COUNT EQU 8
 ;a - first memory location
 ;b - first tile number
 DRAW_SPRITE:
+        call DRAW_PLAYER
+        call DRAW_FROG
+        ret
+
+DRAW_PLAYER:
 	ld hl, _OAMRAM             ; Y position byte
 	ld [hl], PC_SPAWN_Y
 	inc hl                  ; X position byte
@@ -46,7 +51,6 @@ DRAW_SPRITE:
 	inc hl                  ; Options byte
 	ld [hl], %0000         
 	inc hl                  ; Next 
-        
 
         ld c, PC_SPAWN_Y
         ld a, 8
@@ -67,7 +71,9 @@ DRAW_SPRITE:
         ld d, a
         ld e, 8
         call DRAW_COLUMN
+        ret
 
+DRAW_FROG:
         ;ld b, NF_FIRST_TILE
         ld c, NF_SPAWN_Y
         ld d, NF_SPAWN_X
