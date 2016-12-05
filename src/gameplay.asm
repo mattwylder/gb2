@@ -11,34 +11,9 @@ GAMEPLAY_ROUTINES SET 1
 
 VBLANK:
 	push af
-
+        ld b, 1
+        call DRAW_SPRITE
 	;to OAM from RAM
-        ld de, _OAMRAM
-	ld hl, _RAM
-
-	;Load Y Position
-	ld a, [hl]
-	ld [de], a
-	inc de
-	inc hl
-
-	;Load X Position
-	ld a, [hl]
-	ld [de], a
-	inc de
-	inc hl
-
-	;Load Tile number
-	ld a, [hl]
-	ld [de], a
-	inc de
-	inc hl
-
-	;Load Extra flags
-	ld a, [hl]
-	ld [de], a
-
-	;Return
 	pop af
 	reti
 
