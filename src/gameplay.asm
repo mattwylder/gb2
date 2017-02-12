@@ -39,7 +39,6 @@ GAME_CONT:
         ret
 
 CONTROLS:
-        push bc ; TODO: Does pushing / popping bc really belong here?
 	ld a, $20
 	ld [$ff00], a
 
@@ -72,7 +71,6 @@ CONTROLS:
 	ld [$ff8b],a
 	ld a, $30
 	ld [$ff00], a
-        pop bc
 	ret
 
 ENDC
