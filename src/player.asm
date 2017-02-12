@@ -32,9 +32,24 @@ NF_TILE_COUNT EQU 8
 ;******************************************************************************
         SECTION "Player Routines",HOME
 
-;Params
-;a - first memory location
-;b - first tile number
+; TODO: Create a block in memory that holds info on
+;       current player x
+;       current player y
+;       current player direction
+;       maybe there's a more efficient way of handling direction
+
+; TODO: subroutine SPAWN_PLAYER draws player at spawn point, facing right
+;       only called on game start / level start
+
+; TODO: refactor DRAW_PLAYER to draw player based on current player location 
+;       and direction
+
+; TODO: rename to DRAW_SPRITES
+;       figure out a better way to do parameters. registers are messy
+       
+; Params
+;       a - first memory location
+;       b - first tile number
 DRAW_SPRITE:
         call DRAW_PLAYER
         call DRAW_FROG
@@ -74,7 +89,7 @@ DRAW_PLAYER:
         ret
 
 DRAW_FROG:
-        ;ld b, NF_FIRST_TILE
+        ld b, NF_FIRST_TILE
         ld c, NF_SPAWN_Y
         ld d, NF_SPAWN_X
         ld e, $0D
