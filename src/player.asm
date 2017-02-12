@@ -44,12 +44,6 @@ NF_TILE_COUNT EQU 8
 ; TODO: refactor DRAW_PLAYER to draw player based on current player location 
 ;       and direction
 
-; TODO: rename to DRAW_SPRITES
-;       figure out a better way to do parameters. registers are messy
-       
-; Params
-;       a - first memory location
-;       b - first tile number
 DRAW_SPRITE:
         call DRAW_PLAYER
         call DRAW_FROG
@@ -61,6 +55,9 @@ DRAW_PLAYER:
 	inc hl                  ; X position byte
 	ld [hl], PC_SPAWN_X
 	inc hl                  ; tile number byte
+        ld b, 1                 ; TILE NUMBER 1 = player 1 head
+                                ; TODO: should this stay hardcoded? 
+
 	ld [hl], b              ; Current tile 
         inc b                   ; Next tile
 	inc hl                  ; Options byte
@@ -103,12 +100,21 @@ DRAW_FROG:
         call DRAW_COLUMN
         ret
 
-; b - first tile (altered and I like that)
-; c - Y start (altered)
+; TODO: Replace register-based parameters with values above SP
+
+; TODO: Both inout params may need to be reconsidered
+;       though there was a comment that I was happy with first tile as an inout
+
+; TODO: Why are there two labels for this func?
+;       just because of the loop?
+;       seems like a waste
+
+; PARAMS:
+; b - first tile (inout)
+; c - Y start (inout)
 ; d - X start
 ; e - height
 DRAW_COLUMN:
-COLUMN_LOOP:
         ld [hl], c
         inc hl 
         ld [hl], d
@@ -126,7 +132,7 @@ COLUMN_LOOP:
 
         ld a, b
         cp e
-        jr nz,COLUMN_LOOP
+        jr nz, DRAW_COLUMN
 
         ret
 

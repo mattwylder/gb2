@@ -17,9 +17,6 @@ GAMEPLAY_ROUTINES SET 1
 
 VBLANK:
 	push af
-        ld b, 1
-	;to OAM from RAM
-        
         call CONTROLS
         call GAME
 	pop af
@@ -42,7 +39,7 @@ GAME_CONT:
         ret
 
 CONTROLS:
-        push bc
+        push bc ; TODO: Does pushing / popping bc really belong in this routine?
 	ld a, $20
 	ld [$ff00], a
 
