@@ -8,20 +8,26 @@ IF !DEF(GAMEPLAY_ROUTINES)
 GAMEPLAY_ROUTINES SET 1
 
 	SECTION "Gameplay Routines",HOME
-; TODO: Dpad updates info in player location block (see todo in player.asm)
-;       button input should not affect what calls are made, only alter player state
 
-; TODO: VBLANK should only
-;       call CONTROLS
-;       call GAME   
-
+;****************************************************************************
+;*                      VBLANK
+;*     Called from VBLANK interrupt between frames
+;*
+;****************************************************************************
 VBLANK:
 	push af
         call CONTROLS
         call GAME
 	pop af
 	reti
-
+ 
+;****************************************************************************
+;*                      GAME
+;*      Handle main gameplay logic 
+;*
+;****************************************************************************
+; TODO: Dpad update info in player location memory (see todo in player.asm)
+;       button input should not affect what calls are made, only alter player state
 GAME:
         push af
         ld a, [$ff8c]
@@ -29,6 +35,8 @@ GAME:
         jp nz, A_NOT_PRESSED ; This logic is backwards
                              ; still don't really understand nz
                              ; this responds to DP-R, not A
+; TODO: Update to some kind of bit manipulation logic
+;       see inc/hardware.inc line 33 
 A_PRESSED:
         call SPAWN_FROG
         jp GAME_CONT        
@@ -38,6 +46,15 @@ GAME_CONT:
         pop af
         ret
 
+;****************************************************************************
+;*                      CONTROLS
+;*      Grab button input value
+;*
+;*      outputs:
+;*              $FF8C - new value
+;*              $FF8B - old value 
+;*
+;****************************************************************************
 CONTROLS:
 	ld a, $20
 	ld [$ff00], a
