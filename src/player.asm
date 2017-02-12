@@ -60,16 +60,17 @@ DRAW_SPRITES:
 ;*      Draw the player sprite at its spawn location
 ;*
 ;****************************************************************************
+; TODO: Refactor, separate setting the location from drawing the shape
 SPAWN_PLAYER:
 	ld hl, _OAMRAM             ; Y position byte
 	ld [hl], PC_SPAWN_Y
 	inc hl                  ; X position byte
 	ld [hl], PC_SPAWN_X
 	inc hl                  ; tile number byte
-        ld b, 1                 ; TILE NUMBER 1 = player 1 head
-                                ; TODO: should this stay hardcoded? 
 
-	ld [hl], b              ; Current tile 
+        ld b, PC_FIRST_TILE ; Note: First tile (player character's head) is offset
+	ld [hl], b
+
         inc b                   ; Next tile
 	inc hl                  ; Options byte
 	ld [hl], %0000         
@@ -101,6 +102,7 @@ SPAWN_PLAYER:
 ;*      Draw the frog sprite for the first time at its spawn location
 ;*
 ;****************************************************************************
+; TODO: Refactor, separate setting the location from drawing the shape
 SPAWN_FROG:
         ld b, NF_FIRST_TILE
         ld c, NF_SPAWN_Y

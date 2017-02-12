@@ -38,11 +38,11 @@ GAME:
                              ; still don't really understand nz
                              ; this responds to DP-R, not A
 A_PRESSED:
-        call SPAWN_FROG
+        call SPAWN_FROG ; TODO: this should only be done once, not here
         jp GAME_CONT        
 
 A_NOT_PRESSED:
-        call SPAWN_PLAYER
+        call SPAWN_PLAYER ; TODO: this should only be done once, not here
 GAME_CONT:
         pop af
         ret
