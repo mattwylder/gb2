@@ -12,8 +12,16 @@ GAMEPLAY_ROUTINES SET 1
 VBLANK:
 	push af
         ld b, 1
-        call DRAW_SPRITE
 	;to OAM from RAM
+        
+        call CONTROLS
+        cp $10
+        jp nz, A_PRESSED
+A_NOT_PRESSED:
+        jp VBLANK_CONT        
+A_PRESSED:
+        call DRAW_SPRITE
+VBLANK_CONT:
 	pop af
 	reti
 
