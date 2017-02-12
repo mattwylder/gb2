@@ -30,16 +30,17 @@ VBLANK:
 ;       button input should not affect what calls are made, only alter player state
 GAME:
         push af
-        ld a, [$ff8c]
-        cp $10
+
+        ld a, [$ff8c]   ; TODO: Update to some kind of bit manipulation logic
+        cp $10          ;       see inc/hardware.inc line 33 
+
         jp nz, A_NOT_PRESSED ; This logic is backwards
                              ; still don't really understand nz
                              ; this responds to DP-R, not A
-; TODO: Update to some kind of bit manipulation logic
-;       see inc/hardware.inc line 33 
 A_PRESSED:
         call SPAWN_FROG
         jp GAME_CONT        
+
 A_NOT_PRESSED:
         call SPAWN_PLAYER
 GAME_CONT:
