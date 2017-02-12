@@ -30,16 +30,16 @@ GAME:
                              ; still don't really understand nz
                              ; this responds to DP-R, not A
 A_PRESSED:
-        call DRAW_FROG
+        call SPAWN_FROG
         jp GAME_CONT        
 A_NOT_PRESSED:
-        call DRAW_PLAYER
+        call SPAWN_PLAYER
 GAME_CONT:
         pop af
         ret
 
 CONTROLS:
-        push bc ; TODO: Does pushing / popping bc really belong in this routine?
+        push bc ; TODO: Does pushing / popping bc really belong here?
 	ld a, $20
 	ld [$ff00], a
 

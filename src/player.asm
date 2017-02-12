@@ -44,12 +44,23 @@ NF_TILE_COUNT EQU 8
 ; TODO: refactor DRAW_PLAYER to draw player based on current player location 
 ;       and direction
 
-DRAW_SPRITE:
-        call DRAW_PLAYER
-        call DRAW_FROG
+;****************************************************************************
+;*                           DRAW_SPRITES
+;*      Look up all sprites (player, npc, etc) that should appear in
+;*      the current frame
+;*
+;****************************************************************************
+DRAW_SPRITES:
+        ;call DRAW_PLAYER
+        ;call DRAW_FROG
         ret
 
-DRAW_PLAYER:
+;****************************************************************************
+;*                      SPAWN_PLAYER
+;*      Draw the player sprite at its spawn location
+;*
+;****************************************************************************
+SPAWN_PLAYER:
 	ld hl, _OAMRAM             ; Y position byte
 	ld [hl], PC_SPAWN_Y
 	inc hl                  ; X position byte
@@ -85,7 +96,12 @@ DRAW_PLAYER:
         call DRAW_COLUMN
         ret
 
-DRAW_FROG:
+;****************************************************************************
+;*                           SPAWN_FROG
+;*      Draw the frog sprite for the first time at its spawn location
+;*
+;****************************************************************************
+SPAWN_FROG:
         ld b, NF_FIRST_TILE
         ld c, NF_SPAWN_Y
         ld d, NF_SPAWN_X
