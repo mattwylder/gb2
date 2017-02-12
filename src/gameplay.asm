@@ -9,8 +9,11 @@ GAMEPLAY_ROUTINES SET 1
 
 	SECTION "Gameplay Routines",HOME
 ; TODO: Dpad updates info in player location block (see todo in player.asm)
-; button input should not affect what calls are made, only alter player state
+;       button input should not affect what calls are made, only alter player state
 
+; TODO: VBLANK should only
+;       call CONTROLS
+;       call GAME   
 
 VBLANK:
 	push af
@@ -18,17 +21,25 @@ VBLANK:
 	;to OAM from RAM
         
         call CONTROLS
-        ld a, [$ff8c]
-        cp $10
-        jp nz, A_NOT_PRESSED
-A_PRESSED:
-        call DRAW_FROG
-A_NOT_PRESSED:
-        call DRAW_PLAYER
-        jp VBLANK_CONT        
-VBLANK_CONT:
+        call GAME
 	pop af
 	reti
+
+GAME:
+        push af
+        ld a, [$ff8c]
+        cp $10
+        jp nz, A_NOT_PRESSED ; This logic is backwards
+                             ; still don't really understand nz
+                             ; this responds to DP-R, not A
+A_PRESSED:
+        call DRAW_FROG
+        jp GAME_CONT        
+A_NOT_PRESSED:
+        call DRAW_PLAYER
+GAME_CONT:
+        pop af
+        ret
 
 CONTROLS:
         push bc
