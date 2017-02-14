@@ -31,19 +31,16 @@ VBLANK:
 GAME:
         push af
 
-        ld a, [$ff8c]   ; TODO: Update to some kind of bit manipulation logic
-        cp $10          ;       see inc/hardware.inc line 33 
+        ld a, [$ff8c] ; get joy data
+        and P1F_0
 
-        jp nz, A_NOT_PRESSED ; This logic is backwards
-                             ; still don't really understand nz
-                             ; this responds to DP-R, not A
+        jp nz, A_PRESSED ; if joy data && A button bit != 0 goto A_PRESSED
+        jp GAME_CONT     ; else continue
+
 A_PRESSED:
         call SPAWN_FROG ; TODO: this should only be done once, not here
-        jp GAME_CONT        
-
-A_NOT_PRESSED:
-        call SPAWN_PLAYER ; TODO: this should only be done once, not here
 GAME_CONT:
+        call SPAWN_PLAYER ; TODO: this should only be done once, not here
         pop af
         ret
 
