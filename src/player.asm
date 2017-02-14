@@ -12,7 +12,8 @@ PLAYER_DEF SET 1
 ;******************************************************************************
 
 ; Memory Locations of stored X and Y positions
-PC_Y EQU _RAM
+PC_IS_SPAWNED EQU _RAM
+PC_Y EQU _RAM + 1
 PC_X EQU PC_Y + 1
 
 PC_TILE_COUNT EQU 6
@@ -55,6 +56,13 @@ DRAW_SPRITES:
         ;call DRAW_FROG
         ret
 
+MOVE_PLAYER_RIGHT:
+        ld hl, PC_X
+        ld a, [hl]
+        inc a
+        ld [hl], a
+        ret
+
 ;****************************************************************************
 ;*                      SPAWN_PLAYER
 ;*      Draw the player sprite at its spawn location
@@ -62,10 +70,28 @@ DRAW_SPRITES:
 ;****************************************************************************
 ; TODO: Refactor, separate setting the location from drawing the shape
 SPAWN_PLAYER:
+        ld hl, PC_Y
+        ld [hl], PC_SPAWN_Y
+
+        ld hl, PC_X
+        ld [hl], PC_SPAWN_X 
+
+        ld hl, PC_IS_SPAWNED
+        ld [hl], %0001
+
+        ret
+
+DRAW_PLAYER:
+        ld a, [PC_IS_SPAWNED]
+        and %0001
+        call z, SPAWN_PLAYER
+
 	ld hl, _OAMRAM             ; Y position byte
-	ld [hl], PC_SPAWN_Y
+        ld a, [PC_Y]
+	ld [hl], a
 	inc hl                  ; X position byte
-	ld [hl], PC_SPAWN_X
+        ld a, [PC_X] 
+	ld [hl], a
 	inc hl                  ; tile number byte
 
         ld b, PC_FIRST_TILE ; Note: First tile (player character's head) is offset

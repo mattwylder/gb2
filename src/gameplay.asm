@@ -38,9 +38,10 @@ GAME:
         jp GAME_CONT     ; else continue
 
 A_PRESSED:
-        call SPAWN_FROG ; TODO: this should only be done once, not here
+        ;call SPAWN_FROG ; TODO: this should only be done once, not here
+        call MOVE_PLAYER_RIGHT
 GAME_CONT:
-        call SPAWN_PLAYER ; TODO: this should only be done once, not here
+        call DRAW_PLAYER
         pop af
         ret
 
