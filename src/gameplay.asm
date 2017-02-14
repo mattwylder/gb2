@@ -26,8 +26,6 @@ VBLANK:
 ;*      Handle main gameplay logic 
 ;*
 ;****************************************************************************
-; TODO: Dpad update info in player location memory (see todo in player.asm)
-;       button input should not affect what calls are made, only alter player state
 GAME:
         push af
 
@@ -38,7 +36,6 @@ GAME:
         jp GAME_CONT     ; else continue
 
 A_PRESSED:
-        ;call SPAWN_FROG ; TODO: this should only be done once, not here
         call MOVE_PLAYER_RIGHT
 GAME_CONT:
         call DRAW_PLAYER

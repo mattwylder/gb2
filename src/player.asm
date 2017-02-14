@@ -39,9 +39,6 @@ NF_TILE_COUNT EQU 8
 ;       current player direction
 ;       maybe there's a more efficient way of handling direction
 
-; TODO: subroutine SPAWN_PLAYER draws player at spawn point, facing right
-;       only called on game start / level start
-
 ; TODO: refactor DRAW_PLAYER to draw player based on current player location 
 ;       and direction
 
@@ -68,7 +65,6 @@ MOVE_PLAYER_RIGHT:
 ;*      Draw the player sprite at its spawn location
 ;*
 ;****************************************************************************
-; TODO: Refactor, separate setting the location from drawing the shape
 SPAWN_PLAYER:
         ld hl, PC_Y
         ld [hl], PC_SPAWN_Y
@@ -82,6 +78,7 @@ SPAWN_PLAYER:
         ret
 
 DRAW_PLAYER:
+        ; TODO: remove this, call SPAWN_PLAYER in setup
         ld a, [PC_IS_SPAWNED]
         and %0001
         call z, SPAWN_PLAYER
