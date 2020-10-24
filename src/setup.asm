@@ -4,7 +4,7 @@
 ;*
 ;******************************************************************************
 
-INCLUDE "tiles.asm"
+INCLUDE "src/tiles.asm"
 
 IF !DEF(SETUP_ROUTINES)
 SETUP_ROUTINES SET 1

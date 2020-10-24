@@ -2,10 +2,10 @@
 ;*	Header.asm
 ;*
 ;******************************************************************************
-INCLUDE	"inc/hardware.inc"
-INCLUDE "setup.asm"
-INCLUDE "gameplay.asm"
-INCLUDE "player.asm"
+INCLUDE	"src/inc/hardware.inc"
+INCLUDE "src/setup.asm"
+INCLUDE "src/gameplay.asm"
+INCLUDE "src/player.asm"
 
 ;******************************************************************************
 ;*	cartridge header
@@ -156,4 +156,3 @@ Main:
 	nop                     ; line after halt will be run twice, nop protects for that
 
 	jp     Main
-

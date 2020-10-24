@@ -1,5 +1,5 @@
-del chapo.gb
-rgbasm -o chapo.obj chapo.asm
-rgblink -o chapo.gb chapo.obj
-del chapo.obj
-rgbfix -v chapo.gb
+
+C:\gbdk\bin\rgbasm -o game.obj src\main.asm
+C:\gbdk\bin\rgblink -o game.gb game.obj
+del game.obj
+C:\gbdk\bin\rgbfix -v game.gb
