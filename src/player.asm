@@ -15,8 +15,10 @@ PLAYER_DEF SET 1
 PC_IS_SPAWNED EQU _RAM
 PC_Y EQU _RAM + 1
 PC_X EQU PC_Y + 1
+PC_DIRECTION EQU PC_Y + 1   ;
+FRAME_COUNT EQU PC_DIRECTION + 1
 
-PC_TILE_COUNT EQU 6
+PC_TILE_COUNT EQU 1
 PC_FIRST_TILE EQU 1
 
 ; Spawn Coordinates
@@ -39,7 +41,7 @@ NF_TILE_COUNT EQU 8
 ;       current player direction
 ;       maybe there's a more efficient way of handling direction
 
-; TODO: refactor DRAW_PLAYER to draw player based on current player location 
+; TODO: refactor DRAW_PLAYER to draw player based on current player location
 ;       and direction
 
 ;****************************************************************************
@@ -60,6 +62,13 @@ MOVE_PLAYER_RIGHT:
         ld [hl], a
         ret
 
+MOVE_PLAYER_LEFT:
+        ld hl, PC_X
+        ld a, [hl]
+        dec a
+        ld [hl], a
+        ret
+
 ;****************************************************************************
 ;*                      SPAWN_PLAYER
 ;*      Draw the player sprite at its spawn location
@@ -70,7 +79,7 @@ SPAWN_PLAYER:
         ld [hl], PC_SPAWN_Y
 
         ld hl, PC_X
-        ld [hl], PC_SPAWN_X 
+        ld [hl], PC_SPAWN_X
 
         ld hl, PC_IS_SPAWNED
         ld [hl], %0001
@@ -78,46 +87,23 @@ SPAWN_PLAYER:
         ret
 
 DRAW_PLAYER:
-        ; TODO: remove this, call SPAWN_PLAYER in setup
-        ld a, [PC_IS_SPAWNED]
-        and %0001
-        call z, SPAWN_PLAYER
+  ; TODO: remove this, call SPAWN_PLAYER in setup
+  ld a, [PC_IS_SPAWNED]
+  and %0001
+  call z, SPAWN_PLAYER
 
 	ld hl, _OAMRAM             ; Y position byte
-        ld a, [PC_Y]
+  ld a, [PC_Y]
 	ld [hl], a
 	inc hl                  ; X position byte
-        ld a, [PC_X] 
+  ld a, [PC_X]
 	ld [hl], a
 	inc hl                  ; tile number byte
 
-        ld b, PC_FIRST_TILE ; Note: First tile (player character's head) is offset
+  ld b, PC_FIRST_TILE ; Note: First tile (player character's head) is offset
 	ld [hl], b
 
-        inc b                   ; Next tile
-	inc hl                  ; Options byte
-	ld [hl], %0000         
-	inc hl                  ; Next 
 
-        ld c, PC_SPAWN_Y
-        ld a, 8
-        add a, c
-        ld c, a
-        ld a, PC_SPAWN_X
-        sub 2
-        ld d, a
-        ld e, 5
-        call DRAW_COLUMN
-
-        ld c, PC_SPAWN_Y
-        ld a, 8
-        add a, c
-        ld c, a
-        ld a, d
-        add a, 8
-        ld d, a
-        ld e, 8
-        call DRAW_COLUMN
         ret
 
 ;****************************************************************************
@@ -157,7 +143,7 @@ SPAWN_FROG:
 ; e - height
 DRAW_COLUMN:
         ld [hl], c
-        inc hl 
+        inc hl
         ld [hl], d
         inc hl
         ld [hl], b

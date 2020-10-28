@@ -4,8 +4,8 @@
 ;******************************************************************************
 INCLUDE	"src/inc/hardware.inc"
 INCLUDE "src/setup.asm"
-INCLUDE "src/gameplay.asm"
 INCLUDE "src/player.asm"
+INCLUDE "src/gameplay.asm"
 
 ;******************************************************************************
 ;*	cartridge header

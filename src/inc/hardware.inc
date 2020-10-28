@@ -73,8 +73,10 @@ OAMF_PAL1   EQU  %00010000 ; Palette number; 0,1
 ; --
 rP1 EQU $FF00
 
-P1F_5   EQU  %00100000 ; P15 out port
-P1F_4   EQU  %00010000 ; P14 out port
+JOY_DOWN EQU  %10000000 ; P17 out port
+JOY_UP   EQU  %01000000 ; P16 out port
+JOY_LEFT   EQU  %00100000 ; P15 out port
+JOY_RIGHT   EQU  %00010000 ; P14 out port
 P1F_3   EQU  %00001000 ; P13 in port
 P1F_2   EQU  %00000100 ; P12 in port
 P1F_1   EQU  %00000010 ; P11 in port

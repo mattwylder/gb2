@@ -12,7 +12,7 @@ SETUP_ROUTINES SET 1
 	SECTION "Setup Routines",HOME
 
 CLEAR_MAP:
-        ld	hl,_SCRN0	        ; _SCRN0 = $9800, first point on screen
+  ld	hl,_SCRN0	        ; _SCRN0 = $9800, first point on screen
 	ld	bc,$3FF		        ; counter for 32*32 tiles
 CLEAR_MAP_LOOP:
 	ld	a,0                     ; load 0 into a (tile 0 is blank)
@@ -26,16 +26,16 @@ CLEAR_MAP_LOOP:
 LOAD_TILES:
 	ld	hl,TILES
 	ld	de, _VRAM
-	ld	bc,19*16	        ; 9 tiles, 16B each
+	ld	bc,2*16	        ; 2 tiles, 16B each
 LOAD_TILES_LOOP:
-        ld	a,[hl+]	                ; get a byte from our tiles, and increment.
-        ld	[de],a	                ; put that byte in VRAM and
-        inc	de
-        dec	bc
-        ld	a,b		        ; if b and c != 0, this seems wrong.
-        or	c
-        jr	nz,LOAD_TILES_LOOP
-        ret
+    ld	a,[hl+]	                ; get a byte from our tiles, and increment.
+    ld	[de],a	                ; put that byte in VRAM and
+    inc	de
+    dec	bc
+    ld	a,b		        ; if b and c != 0, this seems wrong.
+    or	c
+    jr	nz,LOAD_TILES_LOOP
+    ret
 
 LOAD_MAP:
 	ld	hl,HELLO_MAP            ; pointer to byte of map
